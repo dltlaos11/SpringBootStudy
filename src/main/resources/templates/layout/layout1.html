@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+ <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style>
+p {
+	color: red;
+}
+div {
+background-color: pink;
+display: grid;
+justify-content: center;
+}
+</style>
+<script>
+	console.log("부모에서 작성된 JavaScript");
+</script>
+</head>
+<body>
+	<!-- 하위 HTML에서 CSS 재정의할 예정 -->
+	<th:block layout:fragment="style1"></th:block>
+	<!-- fragment 삽입하기 -->
+	<header th:replace="fragments/header :: header2"></header>
+	<!-- 하위 HTML에서 content 재정의할 예정 -->
+	<div class="panel panel-default" layout:fragment="content1">!!!!!!</div>
+	<footer th:replace="fragments/footer :: footer2"></footer>
+	<!-- 하위 HTML에서 javascript 재정의할 예정  th:block 은 없어지는 태그이다 -->
+	<th:block layout:fragment="script1">
+	</th:block>
+</body>
+</html>

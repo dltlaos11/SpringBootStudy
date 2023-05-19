@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{/layout/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="panel panel-default" layout:fragment="content1">
+	<h1>FreeBoard 상세보기</h1>
+	<!-- <p th:text="${board}"></p> -->
+	<p th:utext="${'<h1>'+board.title+'</h1>'}"></p>
+	<p th:utext="${board.bno}"></p>
+	<p th:utext="${board.writer}"></p>
+	<p th:utext="${board.regDate}"></p>
+	<p th:utext="${board.updateDate}"></p>
+	<p th:utext="${board.content}"></p>
+	</div>
+</body>
+</html>

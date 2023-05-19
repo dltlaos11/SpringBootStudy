@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout1}">
+
+<head>
+<title>Hello Spring Security</title>
+<meta charset="utf-8" />
+</head>
+<body>
+
+	<div class="panel panel-default" layout:fragment="content1">
+		<div class="panel-body">
+			!!Web Board List Page
+			<div class="alert alert-danger" role="alert">
+
+				<h2>Sorry, you do not have permission to view this page.</h2>
+
+				Click Login at <a th:href="@{/auth/login}">here</a>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

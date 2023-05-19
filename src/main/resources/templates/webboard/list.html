@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="panel panel-default" layout:fragment="content1">
+		<h1 style="text-align: center;">FreeBoard List ~~</h1>
+		<a th:href="@{register.do}">신규등록</a>
+	<!-- 	<p>[[${blist.result.content}]]</p> -->
+	
+		<!-- 조건검색 -->
+		<div class="pull-left">
+			<select id="searchType">
+				<option>전체</option>
+				<option value="title" th:selected="${pageVO.type=='title'}">제목</option>
+				<option value="content" th:selected="${pageVO.type=='content'}">내용</option>
+				<option value="writer" th:selected="${pageVO.type=='writer'}">작성자</option>
+			</select> 
+			<input type="text" id="searchKeyword" th:value="${pageVO.keyword}">
+			<button id="searchBtn">조건검색</button>
+			<img alt="이미지" th:src="@{/images/cat.png}" width="50px"
+				height="50px">
+		</div>
+
+		<p>[[${msg}]]</p>
+
+		<!– list출력 -->
+		<table class="table table-striped table-bordered"
+			th:with="blist2=${blist.result}"> <!-- 지역변수 만들기 -->
+			<tr class="success">
+				<th>bno</th>
+				<th>title</th>
+				<th>content</th>
+				<th>writer</th>
+				<th>regdate</th>
+			</tr>
+
+			<tbody>
+				<tr th:each="board:${blist2.content}" class="odd gradeX">
+					<td>[[${board.bno}]]</td>
+					<td>
+						<a class="boardLink" th:href="${board.bno}">[[${board.title}]]</a> <!-- 댓글수추가 -->
+						<span class="badge">[[${board.replies.size()}]]</span>
+					</td>
+					<td>[[${board.content}]]</td>
+					<td>[[${board.writer}]]</td>
+					<td class="center">
+						[[${#dates.format(board.regdate,'yyyy-MM-dd')}]]</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- paging -->
+		<nav>
+			<div>
+				<ul class="pagination">
+					<li class="page-item" th:if="${blist.prevPage}"><a
+						th:href="${blist.prevPage.pageNumber}+1">PREV
+							[[${blist.prevPage.pageNumber}+1]]</a></li>
+					<li class="page-item"
+						th:classappend="${p.pageNumber==blist.currentPageNum-1}?active:''"
+						th:each="p:${blist.pageList}"><!-- blist == pageMaker(pagleList, result) -->
+						<a th:href="${p.pageNumber}+1">[[${p.pageNumber}+1]]</a>
+					</li>
+					<li class="page-item" th:if="${blist.nextPage}"><a
+						th:href="${blist.nextPage.pageNumber}+1">NEXT
+							[[${blist.nextPage.pageNumber}+1]]</a></li>
+				</ul>
+			</div>
+		</nav>
+		
+		<!-- 선택한 정보가 pageVO로 들어간다 -->
+		<form id="f1" th:action="@{list.do}" method="get"> <!-- 상대경로 -->
+			<input type="text" name="page" th:value="${blist.currentPageNum}">
+			<input type="text" name="size"
+				th:value="${blist.currentPage.pageSize}"> 
+			<input type="text" name="type" th:value="${pageVO.type}"> 
+			<input type="text" name="keyword" th:value="${pageVO.keyword}">
+<!-- 		<input type="text" name="bno" th:value="${pageVO.bno}"> -->	
+	</form>
+
+	</div>
+	<!-- javascript --> 
+	<th:block layout:fragment="script1">
+		<script th:inline="javascript">
+			$(function(){
+				//등록후 추가됨
+				var msg = [[${msg}]]; 
+				if(msg=="success"){
+					alert("정상적으로 등록되었습니다");
+				}
+				var formObj = $("#f1");
+				$(".pagination a").click(function(e){
+					e.preventDefault(); // a의 기본동작은 href로 동작
+					formObj.find("[name='page']").val($(this).attr('href'));
+					formObj.attr("action", "list.do");
+					formObj.submit();
+				});
+				/* 검색 */
+				$("#searchBtn").click(function(){
+					
+					var typeStr = $("#searchType").find(":selected").val();
+					var keywordStr = $("#searchKeyword").val();
+					formObj.find("[name='type']").val(typeStr);
+					formObj.find("[name='keyword']").val(keywordStr);
+					formObj.find("[name='page']").val(1); // form 값 바꿔주기
+					formObj.attr("action", "list.do");  
+					formObj.submit();
+					});
+				/* 상세보기 */
+				$(".boardLink").click(function(e){
+					e.preventDefault();
+					var boardNo = $(this).attr("href");
+					
+					formObj.attr("action", "view.do");  
+					var bnoObj = formObj.find("[name='bno']")
+					if ($(bnoObj).val() != undefined){
+						$(bnoObj).val(boardNo);
+					}else{
+						formObj.append("<input type='text' name='bno' value='"+boardNo+"'>");
+					}
+					alert(boardNo);
+					formObj.submit();
+				});
+
+			})
+			</script>
+		</th:block>
+</body>
+</html>

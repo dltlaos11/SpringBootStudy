@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{/layout/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.oddStyle {background-color: lightblue;}
+	.evenStyle {background-color: lightgray;}
+	.firstStyle { color: black;}
+	.lastStyle { color: black;}
+</style>
+</head>
+<body>
+	<div style="display: grid; justify-content: center;">
+		<!-- <p th:text="${boardList}"></p> -->
+		<div class="panel panel-default" layout:fragment="content1">
+		
+		<h1 style="text-align: center;">FreeBoard List ~~</h1>
+		<table border="1" style="text-align: center;"
+		 th:with="target1='user4', target2='user9'">
+			<tr>
+				<td>count,idx</td>
+				<td>count,idx</td>
+				<td>first, last</td>
+				<td>even, odd</td>
+				<td>size</td>
+				<td>번호</td>
+				<td>제목</td>
+				<td>작성자</td>
+				<td>target..4찾기</td>
+				<td>target..9찾기</td>
+				<td>삭제버튼😠</td>
+				<td>내용</td>
+				<td>작성일</td>
+				<td>수정일</td>
+			</tr>
+			<tr th:each="board, rowStatus: ${boardList}"
+				th:class="${rowStatus.even}?'evenStyle':'oddStyle'"
+				th:classappend = "${rowStatus.first} or ${rowStatus.last} ? 'firstStyle': 'lastStyle'"
+			>
+				<td th:text="${rowStatus.index + '--'+ rowStatus.count}"></td>
+				<td th:text="|${rowStatus.index} -- ${rowStatus.count}|"></td>
+				<td th:text="|${rowStatus.first} -- ${rowStatus.last}|"></td>
+				<td th:text="|${rowStatus.even} -- ${rowStatus.odd}|"></td>
+				<td th:text="${rowStatus.size}"></td>
+				<td>
+<!-- 절대 -->				<a th:href="@{/freeboard/detail(bno=${board.bno})}" th:text="${board.bno}"></a>
+	<!-- 상대 -->			<!-- <a th:href="@{detail(bno=${board.bno})}" th:text="${board.bno}"></a> -->
+				</td>
+				<td th:text="${board.title}">번호</td>
+				<td th:text="${board.writer}">번호</td>
+				<td th:text="${board.writer == target1 ? '찾음(user4)':'손님'}">번호</td>
+				<td th:text="${board.writer == target1 ? '찾음(user9)':'손님 !!'}">번호</td>
+				<td >
+					<a href="#" th:if="${board.writer == target1}">삭제</a>
+					<p th:unless="${board.writer==target1}">view</p>
+				</td>
+				<td th:text="${board.content}">번호</td>
+				<!-- html에서 inline으로 thymeleaf 사용하기 -->
+				<td>[[${board.regDate}]]</td>
+				<td>[[${board.updateDate}]]</td>
+			</tr>
+		</table>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+		<th:block layout:fragment="script1">
+
+			<script th:inline="javascript" type="text/javascript">
+			// js에서 inline으로 thymeleaf 사용하기
+			var boardList = [[${boardList}]];
+			/* 
+			@JsonIgnore // jackson이 json 만들떄 toString 무시
+			*/
+			console.log(boardList[0]);
+			$.each(boardList, function(idx, val){
+				console.log(val)
+			})
+		</script>
+		</th:block>
+
+	</div>
+</body>
+<script>
+/* 
+<tr th:each="board, rowStatus: ${boardList}"> idx 번호 부여 가능
+|${rowStatus.index} -- ${rowStatus.count}| 수직바  값표현
+<td th:text="|${rowStatus.first} -- ${rowStatus.last}|"></td> 처음과 마지막
+<td th:text="|${rowStatus.even} -- ${rowStatus.odd}|"></td> 홀 짝
+<td th:text="${rowStatus.size}"></td> 사이즈
+<tr th:each="board, rowStatus: ${boardList}"
+	th:class="${rowStatus.even}?'evenStyle':'oddStyle'"  클래스 지정
+>
+<td>[[${board.regDate}]]</td> html,js에서 사용하는 방법
+*/
+</script>
+</html>
+

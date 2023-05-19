@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Thyemeleaf 사용하기</h1>
+	<h2 th:text="${company}">텍스트 ㅓㄶ는거 의미없다.</h2>
+	<p th:text="${greeting}">이게 출력안대???</p> 
+	<p th:text="${'<h1>'+greeting+'</h1>'}"> th:text html tag출력</p> 
+	<p th:utext="${'<h1>'+greeting+'</h1>'}"> th:utext html tag동작</p> 
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/antd/5.5.0/antd.min.js" integrity="sha512-IV0iSx+OZRRPxPLbtdtOqZKGDEwn7pkgy7zhv2Qr7+rRyOa6L614z+hNwnlZ21s+t6X9OJ+Xv+m3LKKLEffYCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+	<h1>Expression Basic Object</h1>
+	<p th:text="${boardList[0].title}"></p>
+	<p>inline 방식 표현: [[${boardList[0].title}]]</p>
+	<p>inline 방식 표현: [[${#vars.boardList[0].title}]]</p>
+	<p>characterEncoding: [[${#response.characterEncoding}]]</p>
+	<p>environment: [[${@environment.getProperty('app.title')}]]</p>
+	<p>session: [[${session.userName}]]</p>
+	<p>session: [[${session["userName"]}]]</p>
+	<p>param: [[${param.bno}]]</p>
+	<p>param: [[${#request.getParameter("bno")}]]</p>
+	<p>List객체의 사이즈: [[${boardList.size()}]] </p>
+	<p>타임리프가 제공하는 객체사용--사이즈: [[${#lists.size(boardList)}]] </p>
+	<hr />
+	<p th:text="${now}">1</p>
+	<p th:text="${#dates.format(now,'yyyy-MM-dd hh:mm:ss')}">2</p>
+	<p th:with="today=${#dates.format(now,'yyyy-MM-dd hh:mm:ss')}">
+		3. [[${today}]]
+	</p>
+	<hr />
+	<p th:text="${price}">1</p>
+	<p th:text="${#numbers.formatInteger(price,3,'COMMA')}">2</p>
+	<p th:text="${#numbers.formatDecimal(price,10,10,'POINT')}">정수 10자리, 소수 아래 10 자리
+	남으면 0으로 채우기
+	</p>
+	<hr/>
+	<p th:text="${title}">1</p>
+	<p th:utext="${#strings.replace(title, 's', '<b>S</b>')}">1</p>
+	<p th:utext="${#strings.replace(title, 's', '<mark>S</mark>')}">2</p>
+	<p th:text="${#strings.toUpperCase(title)}">3</p>
+	<ul>
+		<li th:each="myword:${#strings.listSplit(title, ' ')}">
+		[[${myword}]]
+		</li>
+	</ul>
+	<hr />
+	<h2 th:text="${options}"></h2>
+	<ul>
+		<li th:each="aa:${options}" th:text="${aa}">
+		</li>
+	</ul>
+	<hr />
+	<h2>링크 사용하기</h2>
+	<a th:href ="@{http://localhost:8888/app/freeboard/selectAll}">selectAll</a><br/>
+	<a th:href ="@{/freeboard/selectAll}">selectAll, / ,절대1</a><br/>
+	<!-- 다른 context인 경우 ~를 사용 -->
+	<a th:href ="@{~/app/freeboard/selectAll}">selectAll, / ,절대2</a><br/>
+	<a th:href ="@{selectAll}">selectAll, 상대</a><br/>
+	<a th:href ="@{detail(bno=50)}">parameter가 있는 경우</a><br/>
+	</body>
+</html>
+<<script type="text/javascript">
+/* 
+th:text,
+th:utext,
+th:each="aa:${options}"
+<p th:text="${#dates.format(now,'yyyy-MM-dd hh:mm:ss')}">2</p>
+<p th:with="today=${#dates.format(now,'yyyy-MM-dd hh:mm:ss')}">
+*/
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

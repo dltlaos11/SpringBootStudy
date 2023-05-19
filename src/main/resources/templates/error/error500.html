@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="panel panel-default" layout:fragment="content1">
+		<h1>알림(문제발생)</h1>
+		<h2 th:text="${msg}"></h2>
+		<!-- <p>[[${errorMap.exception}]] exception ❌ -->
+		<p>[[${errorMap.timestamp}]]</p>
+		<p>[[${errorMap.status}]]</p>
+		<p>[[${errorMap.error}]]</p>
+		<p>[[${errorMap.path}]]</p>
+		<p>[[${errorMap.message}]]</p>
+	</div>	
+
+</body>
+</html>

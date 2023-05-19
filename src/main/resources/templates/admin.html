@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout1}">
+
+<head>
+<title>Hello Spring Security</title>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div class="panel panel-default" layout:fragment="content1">
+	    <h1>Admin page입니다.</h1>
+	    <h2>	    
+	    <span sec:authentication="principal.Username"></span>님 환영합니다!</h2>
+	    <p>[[${session.user.Username}]]</p>
+		<div class="panel-body">
+			<form class="form-inline my-2 my-lg-0"  form-method="post"
+				th:action="@{/logout}">
+				
+				<!-- 인증⭕ -->
+				<button sec:authorize="isAuthenticated()" 
+					class="btn btn-primary" type="submit">Logout</button>
+				<!-- 인증❌ -->
+				<button sec:authorize="isAnonymous()" th:href="@{/auth/login}"
+					class="btn btn-primary" type="submit">Login</button>
+			</form>
+
+		</div>
+	</div>
+</body>
+</html>
